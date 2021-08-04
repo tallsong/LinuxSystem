@@ -391,7 +391,97 @@ HANDLE hDll**;** //声明一个dll实例文件句柄 hDll = LoadLibrary**("mydll
 | .o                 | 编译后的目标文件      |
 
 
-# makefile 
+
+
+# makefile
+
+## 基本规则
+
+```makefile
+target: object
+	command
+```
+
+
+
+当前目录下有main.c fun1.c fun2.c sum.c, 根据这个基本规则编写一个简单的makefile文件, 生成可执行文件main.
+
+- 第一版
+
+  ```makefile
+  main:main.c fun1.c fun2.c sum.c
+  	gcc main.c fun1.c fun2.c sum.c -o main.out -I ./
+  ```
+
+  
+
+- 第二版
+
+  ```makefile
+  main.out:main.o fun1.o fun2.o sum.o
+  	gcc main.o fun1.o fun2.o sum.o -o main.out
+  main.o:main.c
+  	gcc  main.c -c  -o main.o  -I ./
+  fun1.o:fun1.c
+  	gcc fun1.c -c -o fun1.o
+  fun2.o:fun2.c
+  	gcc fun2.c -c -o fun2.o
+  sum.o:sum.c
+  	gcc sum.c -c -o sum.o
+  ```
+
+  
+
+
+
+- 第三版
+
+  ```makefile
+  target=main.out
+  object = main.o fun1.o fun2.o sum.o
+  CC= gcc
+  CPPFLAGS = -I ./
+  $(target):$(object)
+  	$(CC) $^ -o $@
+  %.o:%.c
+  	$(CC)  $< -c  -o $@  $(CPPFLAGS)
+  ```
+
+- 第四版
+
+  ```makefile
+  src = $(wildcard ./*.c)
+  object = $(patsubst %.c,%.o,$(src))
+  target = main.out
+  CC= gcc
+  CPPFLAGS = -I ./
+  $(target):$(object)
+  	$(CC) $^ -o $@
+  %.o:%.c
+  	$(CC)  $< -c  -o $@  $(CPPFLAGS)
+  ```
+
+  
+
+- 第五版
+
+  ```makefile
+  src = $(wildcard ./*.c)
+  object = $(patsubst %.c,%.o,$(src))
+  target = main.out
+  CC= gcc
+  CPPFLAGS = -I ./
+  $(target):$(object)
+  	$(CC) $^ -o $@
+  %.o:%.c
+  	$(CC)  $< -c  -o $@  $(CPPFLAGS)
+  
+  .PHONY:clean
+  clean:
+  	-rm -f $(target) $(object)
+  ```
+
+  
 
 # gdb
 
