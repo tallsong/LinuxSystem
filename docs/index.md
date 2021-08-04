@@ -488,14 +488,42 @@ target: object
 # file
 
 # process
+## process
+```C
+fork();
+exec();
+getpid();
+getppid();
 
+```
 # interprocess communication
+- pipe
+- fifo
+- mmap
+- signal
 
+```c
+signal();
+kill();
+abort();
+alarm();
+setitimer();
+sigchld();
+```
 # signal
 
 # deamon
 
 # thread
+```c
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr,void *(*start_routine) (void *), void *arg);
+void pthread_exit(void *retval);
+int pthread_join(pthread_t thread, void **retval);
+int pthread_detach(pthread_t thread);
+int pthread_cancel(pthread_t thread);
+int pthread_equal(pthread_t t1, pthread_t t2);
+```
+
 
 # thread synchronization 
 
