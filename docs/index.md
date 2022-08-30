@@ -1,4 +1,4 @@
-[toc]
+[TOC]
 # command
 
 ## command-line interpreter
@@ -649,6 +649,99 @@ $4 = 13
 set var width=47 // 将变量var值设置为47
 
 在你改变程序变量取值时, 最好都使用set var格式的GDB命令。
+
+# tcpdump
+- get traffic by port
+```bash
+# get https traffic
+tcpdump -nnSX port 443 
+```
+- get traffic by interface
+```bash
+tcpdump -i eth0
+```
+> Or get *all* interfaces with `-i any`
+- find traffic by ip
+```bash
+# see traffic that’s going to or from 1.1.1.1
+tcpdump host 1.1.1.1
+```
+- Filtering by Source and/or Destination
+
+```bash
+tcpdump src 1.1.1.1
+tcpdump dst 1.0.0.1
+```
+
+- Finding Packets by Network
+```bash
+# To find packets going to or from a particular network or subnet, use the net option.
+
+tcpdump net 1.2.3.0/24
+
+```
+
+- Get Packet Contents with Hex Output
+```bash
+tcpdump -c 1 -X icmp
+```
+- Show Traffic Related to a Specific Port
+```bash
+tcpdump port 3389
+tcpdump src port 1025
+```
+
+- Show Traffic of One Protocol
+```bash
+# you can use tcp, udp, icmp, and many others as well.
+tcpdump icmp
+
+```
+- Show only IP6 Traffic
+```bash
+tcpdump ip6
+```
+
+- Find Traffic Using Port Ranges
+
+```bash
+tcpdump portrange 21-23
+```
+
+- Find Traffic Based on Packet Size
+```bash
+tcpdump less 32
+tcpdump greater 64
+tcpdump <= 128
+
+```
+- Reading / Writing Captures to a File (pcap)
+
+```bash
+# write to PACP file
+tcpdump port 80 -w capture_file
+# read PCAP file
+tcpdump -r capture_file
+
+```
+
+- **`-X`** : Show the packet’s *contents* in both `hex` and `ASCII`.
+- **`-XX`** : Same as **`-X`**, but also shows the ethernet header.
+- **`-D`** : Show the list of available interfaces
+- **`-l`** : Line-readable output (for viewing as you save, or sending to other commands)
+- **`-q`** : Be less verbose (more quiet) with your output.
+- **`-t`** : Give human-readable timestamp output.
+- **`-tttt`** : Give maximally human-readable timestamp output.
+- **`-i eth0`** : Listen on the eth0 interface.
+- **`-vv`** : Verbose output (more v’s gives more output).
+- **`-c`** : Only get *x* number of packets and then stop.
+- **`-s`** : Define the *snaplength* (size) of the capture in bytes. Use `-s0` to get everything, unless you are intentionally capturing less.
+- **`-S`** : Print absolute sequence numbers.
+- **`-e`** : Get the ethernet header as well.
+- **`-q`** : Show less protocol information.
+- **`-E`** : Decrypt IPSEC traffic by providing an encryption key.
+
+
 
 
 
